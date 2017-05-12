@@ -26,6 +26,7 @@ import com.amazon.kinesis.streaming.agent.processing.processors.BracketsDataConv
 import com.amazon.kinesis.streaming.agent.processing.processors.CSVToJSONDataConverter;
 import com.amazon.kinesis.streaming.agent.processing.processors.LogToJSONDataConverter;
 import com.amazon.kinesis.streaming.agent.processing.processors.SingleLineDataConverter;
+import com.amazon.kinesis.streaming.agent.processing.processors.RegexFilteredDataConverter;
 
 /**
  * The factory to create: 
@@ -43,7 +44,8 @@ public class ProcessingUtilsFactory {
         SINGLELINE,
         CSVTOJSON,
         LOGTOJSON,
-        ADDBRACKETS
+        ADDBRACKETS,
+        REGEX_FILTER
     }
     
     public static enum LogFormat {
@@ -121,6 +123,9 @@ public class ProcessingUtilsFactory {
                 return new LogToJSONDataConverter(config);
             case ADDBRACKETS:
                 return new BracketsDataConverter();
+            case REGEX_FILTER:
+                String matchPattern = config.readString(MATCH_PATTERN_KEY, null);
+                return new RegexFilteredDataConverter(matchPattern);
             default:
                 throw new ConfigurationException(
                         "Specified option is not implemented yet: " + option);

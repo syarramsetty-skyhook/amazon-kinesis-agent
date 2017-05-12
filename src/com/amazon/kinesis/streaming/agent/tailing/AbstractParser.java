@@ -491,7 +491,7 @@ public abstract class AbstractParser<R extends IRecord> implements IParser<R> {
             totalRecordsProcessed.incrementAndGet();
         } else {
             totalRecordsSkipped.incrementAndGet();
-            logger.warn("1 record parsed but skipped for processing and delivering");
+            logger.info("1 record parsed but skipped for processing and delivering");
         }
         return result;
     }
